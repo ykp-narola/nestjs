@@ -1,0 +1,21 @@
+# Set the default behavior to handle all text files automatically.
+# This normalizes line endings to LF on commit and converts them to the
+# native platform's line endings (CRLF on Windows, LF on Unix) on checkout.
+* text=auto
+
+# Explicitly declare text files to always use LF on commit
+*.ts text
+*.js text
+*.json text
+*.md text
+*.html text
+*.css text
+.gitignore text
+.gitattributes text
+
+# Denote binary files that should not be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
