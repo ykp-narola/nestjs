@@ -9,7 +9,6 @@ async function bootstrap() {
     whitelist: true, //remove properties that are not defined in the DTO
     forbidNonWhitelisted: true // throw error if properties that are not defined in the DTO are found
   }));
-
   app.enableShutdownHooks();
 
   await app.listen(process.env.PORT ?? 3000);

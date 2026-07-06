@@ -32,7 +32,7 @@ This project demonstrates NestJS core concepts, implementing custom and built-in
 ### 📁 Directory Structure
 Below is an overview of the key components under `src/`:
 
-*   **`app.module.ts`**: The root module of the application, importing `EmployeeModule` and configuring global `LoggerMiddleware`.
+*   **`app.module.ts`**: The root module of the application, importing module dependencies (`EmployeeModule`, `ConfigModule`, `MongooseModule`) and configuring global `LoggerMiddleware`.
 *   **`main.ts`**: The entry point of the application. It boots the application and sets up the global `ValidationPipe` with `whitelist` and `forbidNonWhitelisted` options.
 *   **`employee/`**: A module demonstrating full CRUD operations, using a DTO (`CreateEmployeeDto`), custom interfaces, guards, and filters.
 *   **`product/`**: A simple module containing a controller and service to manage product data.
@@ -43,6 +43,7 @@ Below is an overview of the key components under `src/`:
 *   **`common/pipes/`**: Includes a custom `UppercasePipe` showing parameter transformation.
 *   **`filters/`**: Contains `HttpExceptionFilter` which catches and structures both Nest `HttpException` and generic `Error` occurrences.
 *   **`pipetest/`**: Controller endpoints to test custom and built-in pipes (e.g. `ParseIntPipe`).
+*   **`env/`**: Implements custom configuration/environment management using `@nestjs/config`, exposed through an `EnvController` at `GET /env`.
 
 ---
 
@@ -74,6 +75,21 @@ Below is an overview of the key components under `src/`:
       "timestamp": "2026-07-03T15:03:22.000Z",
       "path": "/employee"
     }
+    ```
+
+### ⚙️ Configuration & Environment Variables
+*   **`ConfigModule` Integration** (`src/app.module.ts`):
+    Integrates NestJS `@nestjs/config` globally. Exposes environment variables loaded from the root `.env` file via `ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' })`.
+*   **`EnvService`** (`src/env/env.service.ts`):
+    A service that wraps the built-in `ConfigService` to fetch environment variables by their keys dynamically (e.g. `this.config.get<string>(key)`).
+*   **`EnvController`** (`src/env/env.controller.ts`):
+    Exposes a `GET /env` route that uses the `EnvService` to check the current configured `MONGODB_URI` value.
+
+### 🗄️ Database (Mongoose/MongoDB)
+*   **`MongooseModule` Integration** (`src/app.module.ts`):
+    Establishes connection to MongoDB at startup using `@nestjs/mongoose` and `mongoose` by reading the connection string from environment variables:
+    ```typescript
+    MongooseModule.forRoot(process.env.MONGODB_URI ?? "")
     ```
 
 ---
