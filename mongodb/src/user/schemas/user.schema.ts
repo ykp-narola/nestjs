@@ -6,25 +6,32 @@ import { Type } from "class-transformer";
 import { Designation } from "./designation.schema";
 
 @Schema({ timestamps: true })
-export class User extends Document {
+export class User {
 
-    @Prop({ required: true })
+    @Prop()
     @IsString()
-    @IsNotEmpty()
-    name: string;
+    @IsOptional()
+    name?: string;
 
     @Prop({ required: true })
     @IsEmail()
     @IsNotEmpty()
     email: string;
 
-    @Prop({ required: true })
+    @Prop({ select: false })
+    @IsString()
+    @IsOptional()
+    password?: string;
+
+    @Prop()
+    @IsOptional()
     @ValidateNested()
     @Type(() => Address)
-    address: Address;
+    address?: Address;
 
     @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: "Designation" }] })
-    designation: Designation[];
+    @IsOptional()
+    designation?: Designation[];
 
     @Prop({ default: false })
     @IsBoolean()

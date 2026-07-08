@@ -14,6 +14,8 @@ import { EnvController } from './env/env.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { StudentModule } from './student/student.module';
 import { UserModule } from './user/user.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,7 +23,8 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     MongooseModule.forRoot(process.env.MONGODB_URI ?? ""),
     StudentModule,
-    UserModule
+    UserModule,
+    AuthModule
   ],
   controllers: [AppController, ProductController, PipetestController, DatabaseController, EnvController],
   providers: [AppService, ProductService, DatabaseService, EnvService],
